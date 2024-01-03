@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+    <section id="header">
+        <a href="#"><img src="#" class="logo" alt=""></a>
+
+        <div>
+            
+            <ul id="navbar">
+                <div class="dropdown">
+                    <button class="dropbtn">
+                      <img src="products/threeBar.jpg" width="50" height="50" class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="jacketshop.html">Jackets</a>
+                        <a href="pantshop.html">Pants</a>
+                        <a href="topshop.html">Tops</a>
+                    </div>
+                </div>
+                <li><a class="active" href="index.html">KALYPTÉ</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <input type="text" placeholder="Search for clothes...">
+                <li id="lg-bag"><a href="cart.html"><i class="far fa-shopping-bag"></i></a></li>
+                <a href="#" id="close"><i class="far fa-times"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <a href="cart.html"><i class="far fa-shopping-bag"></i></a>
+            <i id="bar" class="fas fa-outdent"></i>
+        </div>
+    </section>
+
+    <section id="cart" class="section-p1">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Remove</td>
+                    <td>Image</td>
+                    <td>Product</td>
+                    <td>Price</td>
+                    <td>Quantity</td>
+                    <td>Subtotal</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                
+            </tbody>
+        </table>
+    </section>
+    
+
+    <script>
+        
+        function removeCartItem(productIndex) {
+            var cartItems = JSON.parse(sessionStorage.getItem('cartItems')) || [];
+
+            cartItems.splice(productIndex, 1);
+            sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+            // Hide the specific row
+            document.getElementById('row-' + productIndex).style.display = 'none';
+
+            var total = cartItems.reduce(function(acc, item) {
+                    return acc + (item.price * item.quantity);
+                }, 0);
+                document.getElementById('cartTotalDisplay').textContent = '$' + total.toFixed(2);
+                document.getElementById('TotalDisplay').textContent = '$' + total.toFixed(2);
+        
+    }
+    
+
+
+    </script> 
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cartItems = JSON.parse(sessionStorage.getItem('cartItems')) || [];
+            var cartTableBody = document.querySelector('#cart tbody');
+            updateCartTotal();
+
+            cartItems.forEach(function(item, index) {
+                var row = document.createElement('tr');
+                row.setAttribute('id', 'row-' + index);  // Unique ID for each row
+                var subtotal = item.price * item.quantity;
+
+                row.innerHTML = `
+                <td><button onclick="removeCartItem(${index})" class="remove-item" data-index="${index}"><i class="far fa-times-circle"></i></button></td>
+                <td><a href="${item.webpage}"><img src="${item.image}" alt="" style="width: 100px; height: auto;"></a></td>
+                <td><span>${item.name}</span></td>
+                <td><span>${'$'+item.price}</span></td>
+                <td><input type="number" value="${item.quantity}" class="quantity-input" data-index="${index}"></td>
+                <td id="subtotal-${index}"><span>${'$'+subtotal}</span></td>
+                `;
+                cartTableBody.appendChild(row);
+            });
+            
+    
+              
+            document.querySelectorAll('.quantity-input').forEach(function(input) {
+                input.addEventListener('change', function() {
+                    var index = this.dataset.index;
+                    var newQuantity = parseInt(this.value);
+                    if (!Number.isInteger(parseFloat(this.value))|| newQuantity < 1) {
+                        alert('Quantity must be an integer greater than 0');
+                        this.value = 1; 
+                        newQuantity = 1;
+                    }
+                    updateSubtotal(index, newQuantity);
+                });
+            });
+    
+            function updateSubtotal(index, quantity) {
+                var item = cartItems[index];
+                item.quantity = quantity;
+                var newSubtotal = item.price * quantity;
+                document.getElementById(`subtotal-${index}`).textContent = '$' + newSubtotal.toFixed(2);
+                updateCartTotal();
+            }
+    
+            function updateCartTotal() {
+                var total = cartItems.reduce(function(acc, item) {
+                    return acc + (item.price * item.quantity);
+                }, 0);
+                document.getElementById('cartTotalDisplay').textContent = '$' + total.toFixed(2);
+                document.getElementById('TotalDisplay').textContent = '$' + total.toFixed(2);
+            }
+        });
+    </script>
+
+
+    
+    
+    
+
+    <section id="cart-add" class="section-p1">
+        <div id="cuopon">
+            <h3>Apply Coupon</h3>
+            <div>
+                <input type="text" name="" id="" placeholder="Enter Your Coupon">
+                <button class="normal">Apply</button>
+            </div>
+        </div>
+
+        <div id="subtotal">
+            <h3>Cart Totals</h3>
+            <table>
+                <tr>
+                    <td>Cart Subtotal</td>
+                    <td id="cartTotalDisplay">$ 0.00</td>
+                </tr>
+                <tr>
+                    <td>Shipping</td>
+                    <td id="shipFee">Free</td>
+                </tr>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td id="TotalDisplay">$ 0.00</td>
+                </tr>
+            </table>
+    
+            <button class="normal" id="checkoutButton">Proceed to Checkout</button>
+            
+        </div>
+    </section>
+
+    
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="img/logo.png" alt="">
+            <h4>Contact</h4>
+
+            <div class="follow">
+                <h4>Follow Us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest-p"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <h4>About</h4>
+            <a href="#">About Us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Contact Us</a>
+        </div>
+
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="#">Sign In</a>
+            <a href="#">View Cart</a>
+            <a href="#">My Wishlist</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+
+        <div class="col install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="row">
+                <img src="img/pay/app.jpg" alt="">
+                <img src="img/pay/play.jpg" alt="">
+            </div>
+            <p>Secured Payment Gateways </p>
+            <img src="img/pay/pay.png" alt="">
+        </div>
+    </footer>
+
+
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

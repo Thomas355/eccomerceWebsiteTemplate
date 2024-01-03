@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <section id="header">
+        <a href="#"><img src="#" class="logo" alt=""></a>
+
+        <div>
+            
+            <ul id="navbar">
+                <div class="dropdown">
+                    <button class="dropbtn">
+                      <img src="products/threeBar.jpg" width="50" height="50" class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="jacketshop.html">Jackets</a>
+                        <a href="pantshop.html">Pants</a>
+                        <a href="topshop.html">Tops</a>
+                    </div>
+                </div>
+                <li><a class="active" href="index.html">KALYPTÉ</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <input type="text" placeholder="Search for clothes...">
+                <li id="lg-bag"><a href="cart.html"><i class="far fa-shopping-bag"></i></a></li>
+                <a href="#" id="close"><i class="far fa-times"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <a href="cart.html"><i class="far fa-shopping-bag"></i></a>
+            <i id="bar" class="fas fa-outdent"></i>
+        </div>
+    </section>
+
+    <?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $subject = $_POST['subject'];
+    $message = $_POST['message'];
+
+    $to = 'your-email@example.com'; // Replace with your email address
+    $headers = "From: " . $email;
+
+    // Check if name, email and message are provided
+    if(!empty($email) && !empty($name) && !empty($message)){
+        // Send email
+        if(mail($to, $subject, $message, $headers)) {
+            echo "Email sent successfully!";
+        } else {
+            echo "Email sending failed.";
+        }
+    } else {
+        echo "Please fill all required fields.";
+    }
+}
+?>
+
+<!-- HTML Form (Update the form to include the method and action attributes) -->
+<section id="form-details">
+    <form action="path-to-this-php-file.php" method="post">
+        <span>LEAVE A MESSAGE</span>
+        <h2>We love to hear from you </h2>
+        <input type="text" name="name" id="name" placeholder="Your Name">
+        <input type="text" name="email" id="email" placeholder="E-mail">
+        <input type="text" name="subject" id="subject" placeholder="Subject">
+        <textarea name="message" id="message" cols="30" rows="10" placeholder="Your Message"></textarea>
+        <button class="normal">Submit</button>
+    </form>
+</section>
+
+
+<footer class="section-p1">
+    <div class="col">
+        <img class="logo" src="img/logo.png" alt="">
+        <h4>Contact</h4>
+
+        <div class="follow">
+            <h4>Follow Us</h4>
+            <div class="icon">
+                <i class="fab fa-facebook-f"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-pinterest-p"></i>
+                <i class="fab fa-youtube"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <h4>About</h4>
+        <a href="#">About Us</a>
+        <a href="#">Delivery Information</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms & Conditions</a>
+        <a href="#">Contact Us</a>
+    </div>
+
+    <div class="col">
+        <h4>My Account</h4>
+        <a href="#">Sign In</a>
+        <a href="#">View Cart</a>
+        <a href="#">My Wishlist</a>
+        <a href="#">Track My Order</a>
+        <a href="#">Help</a>
+    </div>
+
+    <div class="col install">
+        <h4>Install App</h4>
+        <p>From App Store or Google Play</p>
+        <div class="row">
+            <img src="img/pay/app.jpg" alt="">
+            <img src="img/pay/play.jpg" alt="">
+        </div>
+        <p>Secured Payment Gateways </p>
+        <img src="img/pay/pay.png" alt="">
+    </div>
+</footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
+
